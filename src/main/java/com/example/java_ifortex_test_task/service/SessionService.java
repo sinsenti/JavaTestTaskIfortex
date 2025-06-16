@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -29,10 +30,10 @@ public class SessionService {
 
 
     public List<SessionResponseDTO> getSessionsFromActiveUsersEndedBefore2025() {
-        //LocalDateTime before2025 = LocalDateTime.of(2025, 1, 1, 0, 0, 0);
-        Timestamp before2025 = Timestamp.valueOf(LocalDateTime.of(2025, 1, 1, 0, 0));
-        List<Session> sessions = sessionRepository.getSessionsFromActiveUsersEndedBefore2025(before2025);
-        return sessions.stream().map(sessionMapper::toDto).toList();
+        List<Session> sessions = sessionRepository.getSessionsFromActiveUsersEndedBefore2025(
+                LocalDateTime.of(2025, 1, 1, 0, 0)
+        );
+        return sessions.stream().map(sessionMapper::toDto).collect(Collectors.toList());
     }
 
 }

@@ -19,9 +19,10 @@ public class UserService {
 
     // Returns a User with the biggest amount of sessions
     public UserResponseDTO getUserWithMostSessions() {
-        User user = userRepository.getUserWithMostSessions();
+         User user = userRepository.getUserWithMostSessions();
         return userMapper.toDto(user);
     }
+
 
 
     // Returns Users that have at least 1 Mobile session

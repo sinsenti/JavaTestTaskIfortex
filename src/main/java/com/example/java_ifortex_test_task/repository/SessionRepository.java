@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -19,15 +19,21 @@ public interface SessionRepository extends JpaRepository<Session, Long> {
              LIMIT 1
             """, nativeQuery = true)
     Session getFirstDesktopSession(DeviceType deviceType);
+//    SELECT s.id, s.device_type, s.ended_at_utc, s.started_at_utc, s.user_id
+//    FROM sessions s
+//    JOIN users u ON s.user_id = u.id
+//    WHERE u.deleted = FALSE
+//    AND s.ended_at_utc IS NOT NULL
+//    AND s.ended_at_utc < :endDate
+//    ORDER BY s.started_at_utc DESC
 
     @Query(value = """
-            SELECT s.id, s.device_type, s.ended_at_utc, s.started_at_utc, s.user_id
-            FROM sessions s
+            SELECT s.* FROM sessions s
             JOIN users u ON s.user_id = u.id
             WHERE u.deleted = FALSE
             AND s.ended_at_utc IS NOT NULL
             AND s.ended_at_utc < :endDate
             ORDER BY s.started_at_utc DESC
             """, nativeQuery = true)
-    List<Session> getSessionsFromActiveUsersEndedBefore2025(@Param("endDate") Timestamp endDate);
+    List<Session> getSessionsFromActiveUsersEndedBefore2025(@Param("endDate") LocalDateTime endDate);
 }
