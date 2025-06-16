@@ -19,15 +19,14 @@ public class UserService {
 
     // Returns a User with the biggest amount of sessions
     public UserResponseDTO getUserWithMostSessions() {
-         User user = userRepository.getUserWithMostSessions();
+        User user = userRepository.getUserWithMostSessions();
         return userMapper.toDto(user);
     }
 
 
-
     // Returns Users that have at least 1 Mobile session
     public List<UserResponseDTO> getUsersWithAtLeastOneMobileSession() {
-        List<User> users = userRepository.getUsersWithAtLeastOneMobileSession(DeviceType.MOBILE);
+        List<User> users = userRepository.getUsersWithAtLeastOneMobileSession(DeviceType.MOBILE.getCode());
         return users.stream().map(userMapper::toDto).collect(Collectors.toList());
     }
 }
