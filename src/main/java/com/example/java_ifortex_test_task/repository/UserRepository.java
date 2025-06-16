@@ -19,7 +19,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
                 FROM sessions s
                 WHERE s.device_type = :deviceType
                 GROUP BY s.user_id
-            ) AS user_latest_sessions ON u.id = user_latest_sessions.user_id
+            ) AS user_latest_sessions
+                ON u.id = user_latest_sessions.user_id
             ORDER BY user_latest_sessions.latest_session_start DESC
             """, nativeQuery = true)
     List<User> getUsersWithAtLeastOneMobileSession(@Param("deviceType") int deviceType);
